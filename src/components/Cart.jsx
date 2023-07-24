@@ -1,4 +1,3 @@
-// Cart.js
 import React from "react";
 import { useCart } from "../context/BasketContext";
 
@@ -6,14 +5,7 @@ const Cart = () => {
   const { cart, dispatch } = useCart();
 
   const handleRemoveFromCart = (productId) => {
-    debugger;
-    const existingItem = cart.cartItems.find((item) => item.id === productId);
-
-    if (existingItem) {
-      if (existingItem.quantity > 1) {
-        dispatch({ type: "REMOVE_FROM_CART", payload: productId });
-      }
-    }
+    dispatch({ type: "REMOVE_FROM_CART", payload: productId });
   };
 
   const calculateTotalPrice = () => {
