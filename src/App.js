@@ -1,4 +1,7 @@
 import "./App.css";
+import Cart from "./components/Cart";
+import ProductList from "./components/ProductList";
+import { CartProvider } from "./context/BasketContext";
 import { Coloria, ColoriaProvider, useColoria } from "./context/ColoriaContext";
 
 function BasketList(params) {
@@ -16,6 +19,11 @@ function App() {
         <Coloria id="coloria3" />
         <BasketList />
       </ColoriaProvider>
+      <CartProvider>
+        <h1>Sepet Uygulaması</h1>
+        <ProductList />
+        <Cart />
+      </CartProvider>
     </div>
   );
 }
