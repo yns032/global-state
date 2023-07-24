@@ -1,4 +1,3 @@
-// ProductList.js
 import React from "react";
 import { useCart } from "../context/BasketContext";
 
@@ -22,7 +21,9 @@ const ProductList = () => {
         {products.map((product) => (
           <li key={product.id}>
             {product.name} - {product.price} TL{" "}
-            <div onClick={() => handleAddToCart(product)}>Sepete Ekle</div>
+            <button onClick={() => handleAddToCart(product)}>
+              Sepete Ekle
+            </button>
           </li>
         ))}
       </ul>
