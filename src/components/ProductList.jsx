@@ -22,9 +22,7 @@ const ProductList = () => {
         {products.map((product) => (
           <li key={product.id}>
             {product.name} - {product.price} TL{" "}
-            <button onClick={() => handleAddToCart(product)}>
-              Sepete Ekle
-            </button>
+            <div onClick={() => handleAddToCart(product)}>Sepete Ekle</div>
           </li>
         ))}
       </ul>
