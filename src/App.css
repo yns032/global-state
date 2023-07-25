@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.text {
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  width:250px;
+}
+.text:hover {
+  overflow:visible;
+} 
