@@ -16,13 +16,45 @@ const Cart = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        margin: "0 auto",
+        textAlign: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "300px",
+        background: "white",
+        border: "2px solid yellow",
+        borderRadius: "5px",
+        marginTop: "10px",
+      }}
+    >
       <h2>Sepet</h2>
-      <ul>
+
+      <ul style={{ listStyle: "none", textAlign: "justify" }}>
         {cart.cartItems.map((item) => (
-          <li key={item.id}>
+          <li
+            key={item.id}
+            style={{
+              marginTop: "10px",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between", // Sola yaslamak için sola hizalama
+              alignItems: "center", // Dikeyde ortalamak için dikey hizalama
+            }}
+          >
             {item.name} - {item.price} TL (x{item.quantity}){" "}
-            <button onClick={() => handleRemoveFromCart(item.id)}>
+            <button
+              className="sepetButon"
+              onClick={() => handleRemoveFromCart(item.id)}
+              style={{
+                color: "white",
+                backgroundColor: "#fa0",
+                borderRadius: "5px",
+                border: "1px solid yellow",
+                marginRight: "10px",
+              }}
+            >
               Sepetten Çıkar
             </button>
           </li>
