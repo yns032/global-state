@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useCart } from "../context/BasketContext";
+import { FavoriteIcon } from "../common/Icons";
 
 const ProductList = () => {
   const { dispatch } = useCart();
   const [products, setProducts] = useState([]);
+  const [typing, setTyping] = useState(" ");
+  const [movieData, setMovieData] = useState([]);
 
   // Ürünleri API'den çekmek için fetchProducts fonksiyonu
   const fetchProducts = async () => {
@@ -16,117 +19,138 @@ const ProductList = () => {
     }
   };
 
-  // Belirli sayıda kelime almak için bir fonksiyon oluşturalım
-  const getLimitedWords = (text, limit) => {
-    const words = text.split(" ");
-    return words.slice(0, limit).join(" ");
-  };
-
   useEffect(() => {
     fetchProducts();
   }, []);
-
   const handleAddToCart = (product) => {
     dispatch({ type: "ADD_TO_CART", payload: product });
   };
 
+  function typingStart(e) {
+    const typingTimeOut = setTimeout(() => {
+      setTyping(e.target.value);
+    }, 500);
+    return () => {
+      clearTimeout(typing);
+    };
+  }
+
+  async function getMovies() {
+    const responce = await fetch("https://fakestoreapi.com/products");
+    const data = await responce.json();
+    const getData = data
+      .filter((item) => item.title.includes(typing))
+      .map((i) => {
+        return {
+          id: i.id,
+          title: i.title,
+          price: i.price,
+          description: i.description,
+          image: i.image,
+        };
+      });
+    setMovieData(getData);
+  }
+
+  useEffect(() => {
+    getMovies();
+  }, [typing]);
+
   return (
-    <div style={{ width: "100%" }}>
-      <h2>Ürün Listesi</h2>
-      <div
-        style={{
-          display: "grid",
-          width: "100%",
-          gridTemplateColumns: "repeat(3, 1fr)",
-        }}
-      >
-        {products.map((product) => (
-          <div key={product.id} style={{ width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div className="headertitle">
+        <h2 style={{ textAlign: "center", margin: 16 }}>Ürün Listesi</h2>
+        <input
+          onChange={typingStart}
+          type="text"
+          style={{}}
+          placeholder="Search..."
+        />
+      </div>
+
+      <div className="product-list">
+        {movieData.map((product) => (
+          <div
+            key={product.id}
+            style={{
+              background: "#fff",
+              shadow: "0 0 10px rgba(0,0,0,0.2)",
+              position: "relative",
+            }}
+            className="w-full flex flex-col justify-center items-center flex-col border rounded-5 p-3"
+          >
             <img
               src={product.image}
               style={{
                 height: "140px",
                 width: "120px",
-                objectFit: "cover",
+                objectFit: "contain",
                 margin: "0 auto",
                 padding: 8,
               }}
-              alt="..."
+              alt={product.title}
             />
-
-            <h5>{getLimitedWords(product.title, 3)}</h5>
-
-            <p className="text">{product.description}</p>
-            <div>
-              <button onClick={() => handleAddToCart(product)}>
+            <textarea
+              rows={2}
+              style={{
+                width: "80%",
+                margin: "10px auto",
+                resize: "none",
+                overflow: "hidden",
+                border: "none",
+                outline: "none",
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              {product.title}
+            </textarea>
+            <textarea
+              rows={3}
+              style={{
+                width: "80%",
+                margin: "10px auto",
+                resize: "none",
+                overflow: "hidden",
+                border: "none",
+                outline: "none",
+                textAlign: "center",
+              }}
+            >
+              {product.description}
+            </textarea>
+            <p className="flex align-center justify-center">
+              {product.price} TL
+            </p>
+            <div className="flex flex-row gap-4 align-center justify-center">
+              <button
+                className="btn-primary"
+                onClick={() => handleAddToCart(product)}
+              >
                 Sepete Ekle
               </button>
-              <button onClick={() => handleAddToCart(product)}>
-                Favariler
-              </button>
+              <FavoriteIcon
+                size={32}
+                style={{
+                  cursor: "pointer",
+                  position: "absolute",
+                  top: 30,
+                  color: "#fa0",
+                  right: 30,
+                }}
+                onClick={() => handleAddToCart(product)}
+              />
             </div>
           </div>
         ))}
       </div>
-      {/* <div
-          style={{
-            gap: 4,
-            width: "100%",
-            display: "grid",
-            gridTemplate: "repeat(3, 1fr)",
-          }}
-        >
-          {products.map((product) => (
-            <div key={product.id}>
-              <div>
-                <img
-                  src={product.image}
-                  style={{
-                    height: "140px",
-                    width: "120px",
-                    objectFit: "cover",
-                    margin: "0 auto",
-                    padding: 8,
-                  }}
-                  className="card-img-top"
-                  alt="..."
-                />
-                <div className="card-body">
-                  <h5 className="card-title">
-                    {getLimitedWords(product.title, 3)}
-                  </h5>
-                  {/* <p className="card-text" style={{ textOverflow: "ellipsis" }}>
-                      {getLimitedWords(product.description, 10)}
-                    </p> */}
-      {/* <p
-                    style={{
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {product.description}
-                  </p>
-                  <div className="container text-center">
-                    {" "}
-                    <button
-                      className="col-md-4 border border-light-subtle"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      Sepete Ekle
-                    </button>
-                    <button
-                      className="col-md-4 offset-md-4 border border-light-subtle"
-                      onClick={() => handleAddToCart(product)}
-                    >
-                      Favariler
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div> */}
     </div>
   );
 };
