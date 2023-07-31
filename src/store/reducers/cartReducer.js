@@ -37,6 +37,19 @@ const cartReducer = (state, action) => {
           cartItems: state.cartItems.filter((item) => item.id !== deletedId),
         };
       }
+    case "ADD_TO_FAVORITES":
+      const newItem = action.payload;
+      const checkFavoriteItem = state.favoriteItems.find(
+        (item) => item.id === newItem.id
+      );
+      if (checkFavoriteItem) {
+        return state; // If the item is already in favorites, return the current state.
+      } else {
+        return {
+          ...state,
+          favoriteItems: [...state.favoriteItems, newItem],
+        };
+      }
 
     default:
       return state;
