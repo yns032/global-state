@@ -1,13 +1,13 @@
 import React from "react";
-import List from "../List";
+import Header from "../Header";
 import { Outlet } from "react-router-dom";
 
 function Layout() {
   return (
-    <div>
-      <List />
+    <>
+      <Header />
       <Outlet />
-    </div>
+    </>
   );
 }
 
