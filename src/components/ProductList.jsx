@@ -25,6 +25,9 @@ const ProductList = () => {
   const handleAddToCart = (product) => {
     dispatch({ type: "ADD_TO_CART", payload: product });
   };
+  const handleAddFavori = (product) => {
+    dispatch({ type: "ADD_TO_FAVORITES", payload: product });
+  };
 
   function typingStart(e) {
     const typingTimeOut = setTimeout(() => {
@@ -50,6 +53,7 @@ const ProductList = () => {
         };
       });
     setMovieData(getData);
+    console.log(responce);
   }
 
   useEffect(() => {
@@ -145,7 +149,7 @@ const ProductList = () => {
                   color: "#fa0",
                   right: 30,
                 }}
-                onClick={() => handleAddToCart(product)}
+                onClick={() => handleAddFavori(product)}
               />
             </div>
           </div>
