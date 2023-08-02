@@ -4,7 +4,8 @@ import { useCart } from "../context/BasketContext";
 import { FavoriteIcon } from "../common/Icons";
 
 const ProductList = () => {
-  const { dispatch } = useCart();
+  const { dispatch, ...props } = useCart();
+  console.log(props);
   const [products, setProducts] = useState([]);
   const [typing, setTyping] = useState(" ");
   const [movieData, setMovieData] = useState([]);
