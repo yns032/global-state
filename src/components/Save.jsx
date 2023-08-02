@@ -4,7 +4,8 @@ import axios from "axios";
 import { FavoriteIcon } from "../common/Icons";
 
 function Save() {
-  const { dispatch } = useCart();
+  const { dispatch, ...props } = useCart();
+  console.log(props);
   const [products, setProducts] = useState([]);
   const [typing, setTyping] = useState(" ");
   const [movieData, setMovieData] = useState([]);
@@ -42,7 +43,7 @@ function Save() {
       </div>
 
       <div className="product-list">
-        {movieData.map((product) => (
+        {props?.cart?.favoriteItems?.map((product) => (
           <div
             key={product.id}
             style={{
