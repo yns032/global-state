@@ -5,9 +5,9 @@ import cartReducer from "../store/reducers/cartReducer";
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
-  const initialState = { cartItems: [] };
+  const initialState = { cartItems: [], favoriteItems: [] };
   const [state, dispatch] = useReducer(cartReducer, initialState);
-
+  console.log({ state });
   return (
     <CartContext.Provider value={{ cart: state, dispatch }}>
       {children}
